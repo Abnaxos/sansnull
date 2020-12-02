@@ -1,0 +1,8 @@
+/lib
+
+!/test-project.iml
+/.idea/*
+!/.idea/inspectionProfiles
+!/.idea/inspectionProfiles/Project_Default.xml
+!/.idea/modules.xml
+!/.idea/misc.xml

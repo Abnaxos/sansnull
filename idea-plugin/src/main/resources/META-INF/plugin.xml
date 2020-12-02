@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~  Copyright (c) 2020 Raffael Herzog
+  ~
+  ~  Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~  of this software and associated documentation files (the "Software"), to
+  ~  deal in the Software without restriction, including without limitation the
+  ~  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  ~  sell copies of the Software, and to permit persons to whom the Software is
+  ~  furnished to do so, subject to the following conditions:
+  ~
+  ~  The above copyright notice and this permission notice shall be included in
+  ~  all copies or substantial portions of the Software.
+  ~
+  ~  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  ~  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  ~  IN THE SOFTWARE.
+  -->
+
+<idea-plugin>
+  <idea-version since-build="202"/>
+  <id>ch.raffael.sansnull</id>
+  <name>Nullity</name>
+  <version>patched-by-gradle</version>
+  <vendor email="herzog@raffael.ch" url="https://github.com/Abnaxos/sansnull">Raffael Herzog</vendor>
+
+  <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.java</depends>
+
+  <description><![CDATA[
+
+    <p>Provides IDE support for <code>@SansNull</code> annotations.</p>
+
+    <p><code>@SansNull</code> annotates a package, class or method to infer
+    <code>@NotNull</code> annotations for fields, methods and parameters,
+    whenever no explicit nullability annotation is specified. This allows to
+    follow a <code>@NotNull</code> unless explicitly declared as
+    <code>@Nullable</code> code policy in your project, while keeping the
+    IDE warnings.</p>
+
+    ]]></description>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <lang.inferredAnnotationProvider implementation="ch.raffael.sansnull.idea.SansNullInferredAnnotationProvider"/>
+    <localInspection implementationClass="ch.raffael.sansnull.idea.MissingNullabilityAnnotationInspection"
+                     language="JAVA"
+                     groupName="SansNull"
+                     displayName="Missing nullability annotation"
+                     level="WARNING"
+                     enabledByDefault="true"/>
+  </extensions>
+
+</idea-plugin>
