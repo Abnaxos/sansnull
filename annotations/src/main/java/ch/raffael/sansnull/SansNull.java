@@ -29,19 +29,74 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * TODO javadoc
+ * <p> The {@code @SansNull} annotation implies nullability annotations on
+ * methods, fields and parameters within the annotated scope. It can be
+ * applied to methods (affects method return value and parameters), classes
+ * (affects all methods, fields and inner or nested classes) and packages
+ * (affects all classes within that package). </p>
+ *
+ * <p> The affected elements can be filtered using the attributes. All
+ * elements are enabled by default. </p>
+ *
+ * <p> Nested {@code @SansNull} annotations override outer annotations, for
+ * example:</p>
+ *
+ * <pre>
+ *{@literal @SansNull}
+ * class Example {
+ *  {@literal @SansNull(parameters=false)}
+ *   void foo(String fooParam) {
+ *   }
+ *
+ *   void bar(String barParam) {
+ *   }
+ * }
+ * </pre>
+ *
+ * <p> In this example, {@code @NotNull} will be implied for {@code
+ * barParam}, but not {@code fooParam}. </p>
+ *
+ * @see Imply
  */
 @Documented
 @Retention(RetentionPolicy.CLASS)
 @Target({ElementType.PACKAGE, ElementType.TYPE, ElementType.METHOD})
 public @interface SansNull {
-
   boolean method() default true;
-  boolean parameter() default true;
   boolean field() default true;
+  boolean parameter() default true;
 
   // TODO (2020-12-02) implement local(), typeUse()
   // boolean local() default false;
   // boolean typeUse() default false;
   // TODO (2020-12-01) add exception(), message()
+
+  /**
+   * <p> Meta annotation to imply {@link SansNull @SansNull} with other
+   * annotations. Any annotation that's annotated with this, will imply
+   * {@link SansNull @SansNull} on the annotated element with the specified
+   * parameters </p>
+   *
+   * <p> This won't traverse the whole annotation tree, so only annotations
+   * that are directly annotated with {@code Imply} pass the
+   * {@link SansNull @SansNull} on to the annotated element. </p>
+   *
+   * <p> If an element has both an implied and an explicit
+   * {@link SansNull @SansNull}, the explicit one overrides the implied
+   * one. </p>
+   *
+   * <p> If an element has multiple implied {@link SansNull @SansNull}
+   * annotations, they will be merged, i.e. all attributes of the implied
+   * annotations are OR-ed. </p>
+   *
+   * @see SansNull
+   */
+  @Documented
+  @Retention(RetentionPolicy.CLASS)
+  @Target(ElementType.ANNOTATION_TYPE)
+  @interface Imply {
+    boolean method() default true;
+    boolean field() default true;
+    boolean parameter() default true;
+  }
 }

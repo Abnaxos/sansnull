@@ -57,6 +57,10 @@ It also provides quick-fixes to quickly add `@SansNull` or
 Usually, you'll simply annotate every package in your project with
 `@SansNull`, that's it.
 
+See also the JavaDocs of the
+[@SansNull](annotations/src/main/java/ch/raffael/sansnull/SansNull.java)
+annotation.
+
 
 Building
 --------
@@ -76,8 +80,8 @@ Building
   Hints → Java → Annotations*.
   
 
-Known Issues
-------------
+Limitations
+-----------
 
 ### Constant Conditions
 
@@ -97,5 +101,5 @@ IDEA, but I'll investigate.
 ### Overridden methods are not annotated
 
 If there is an explicit nullability annotation, it will have to be repeated.
-The implied ones are not recognised by this inspection and it will be
-warned.
+The implied ones are not recognised by this inspection and there will be a
+warning about non-annotated overriding methods.
